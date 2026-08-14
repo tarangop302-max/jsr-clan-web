@@ -5,50 +5,92 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{ J S R } — Clan</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root{
-    --black:#0a0908;
-    --char:#151210;
-    --plate:#1c1815;
-    --ember:#ff5a1f;
+    --void:#070605;
+    --char:#120f0e;
+    --iron:#1b1715;
+    --iron-hi:#241f1c;
     --blood:#c11c1c;
-    --blood-dark:#7a0f0f;
-    --ash:#8f847c;
-    --bone:#f2ece3;
-    --line: rgba(242,236,227,0.08);
+    --blood-dim:#7a0f0f;
+    --ember:#ff5a1f;
+    --ember-soft: rgba(255,90,31,0.16);
+    --ash:#948a80;
+    --bone:#f4eee5;
+    --line: rgba(244,238,229,0.08);
+    --line-strong: rgba(244,238,229,0.16);
   }
   *{box-sizing:border-box; margin:0; padding:0;}
   html{scroll-behavior:smooth;}
   body{
-    background:var(--black);
+    background:var(--void);
     color:var(--bone);
     font-family:'Barlow', sans-serif;
     overflow-x:hidden;
+    position:relative;
+  }
+  /* film-grain texture, subtle, over everything */
+  body::before{
+    content:"";
+    position:fixed; inset:0; z-index:200; pointer-events:none;
+    opacity:0.035; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
   @media (prefers-reduced-motion: reduce){
     *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important;}
   }
   h1,h2,h3,.tag{ font-family:'Oswald', sans-serif; letter-spacing:0.02em; }
   a{color:inherit;}
-  .wrap{ max-width:1080px; margin:0 auto; padding:0 28px; }
+  .wrap{ max-width:1100px; margin:0 auto; padding:0 28px; }
+
+  /* ---------- scroll progress ---------- */
+  #progress{
+    position:fixed; top:0; left:0; height:2px; width:0%; z-index:100;
+    background:linear-gradient(90deg, var(--blood-dim), var(--blood), var(--ember));
+    box-shadow:0 0 12px rgba(255,90,31,0.6);
+    transition:width .08s linear;
+  }
 
   /* ---------- nav ---------- */
   nav{
-    position:fixed; top:0; left:0; right:0; z-index:50;
+    position:fixed; top:0; left:0; right:0; z-index:90;
     display:flex; align-items:center; justify-content:space-between;
-    padding:18px 28px;
-    background:linear-gradient(to bottom, rgba(10,9,8,0.95), rgba(10,9,8,0));
-    backdrop-filter:blur(2px);
+    padding:20px 32px;
+    background:linear-gradient(to bottom, rgba(7,6,5,0.92), rgba(7,6,5,0));
+    backdrop-filter:blur(4px);
+    transition:background .3s ease, padding .3s ease, border-color .3s ease;
+    border-bottom:1px solid transparent;
   }
-  .brand{ font-family:'Barlow Condensed', sans-serif; font-weight:700; font-size:1.3rem; letter-spacing:0.15em; }
-  .brand span{ color:var(--ember); }
-  nav ul{ list-style:none; display:flex; gap:28px; font-size:0.82rem; letter-spacing:0.12em; text-transform:uppercase; }
-  nav ul li a{ text-decoration:none; color:var(--ash); transition:color .2s; position:relative; padding-bottom:4px;}
+  nav.scrolled{
+    background:rgba(9,7,6,0.86);
+    padding:14px 32px;
+    border-bottom:1px solid var(--line);
+  }
+  .brand{ font-family:'Barlow Condensed', sans-serif; font-weight:800; font-size:1.35rem; letter-spacing:0.15em; display:flex; align-items:center; gap:2px; }
+  .brand span{ color:var(--ember); text-shadow:0 0 14px rgba(255,90,31,0.55); }
+  nav ul{ list-style:none; display:flex; gap:30px; font-size:0.8rem; letter-spacing:0.13em; text-transform:uppercase; }
+  nav ul li a{ text-decoration:none; color:var(--ash); transition:color .2s; position:relative; padding-bottom:6px;}
   nav ul li a:hover, nav ul li a:focus-visible{ color:var(--bone); }
-  nav ul li a::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--ember);transition:width .25s;}
+  nav ul li a::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:0;background:linear-gradient(90deg,var(--blood),var(--ember));transition:width .25s;}
   nav ul li a:hover::after{width:100%;}
-  .nav-toggle{ display:none; background:none; border:1px solid var(--line); color:var(--bone); padding:8px 12px; font-family:'Oswald'; letter-spacing:.1em; }
+  nav ul li a.active{ color:var(--bone); }
+  nav ul li a.active::after{ width:100%; }
+
+  .nav-toggle{
+    display:none; background:none; border:1px solid var(--line-strong); color:var(--bone);
+    width:40px; height:40px; align-items:center; justify-content:center; cursor:pointer;
+    position:relative; z-index:95;
+  }
+  .nav-toggle span, .nav-toggle span::before, .nav-toggle span::after{
+    content:""; display:block; width:18px; height:2px; background:var(--bone); position:relative; transition:transform .25s ease, opacity .25s ease;
+  }
+  .nav-toggle span::before{ position:absolute; top:-6px; }
+  .nav-toggle span::after{ position:absolute; top:6px; }
+  .nav-toggle.open span{ background:transparent; }
+  .nav-toggle.open span::before{ transform:translateY(6px) rotate(45deg); }
+  .nav-toggle.open span::after{ transform:translateY(-6px) rotate(-45deg); }
 
   /* ---------- hero ---------- */
   header.hero{
@@ -56,140 +98,309 @@
     min-height:100vh;
     display:flex; flex-direction:column; align-items:center; justify-content:center;
     text-align:center;
-    padding:120px 24px 80px;
+    padding:140px 24px 100px;
     background:
-      radial-gradient(ellipse at 50% 120%, rgba(193,28,28,0.35), transparent 60%),
-      radial-gradient(ellipse at 20% -10%, rgba(255,90,31,0.15), transparent 55%),
-      var(--black);
+      radial-gradient(ellipse 60% 45% at 50% 105%, rgba(193,28,28,0.4), transparent 60%),
+      radial-gradient(ellipse 45% 35% at 15% -5%, rgba(255,90,31,0.16), transparent 55%),
+      radial-gradient(ellipse 45% 35% at 85% 0%, rgba(122,15,15,0.22), transparent 55%),
+      var(--void);
     overflow:hidden;
     border-bottom:1px solid var(--line);
   }
+  header.hero::after{
+    content:"";
+    position:absolute; inset:0; z-index:1; pointer-events:none;
+    background:radial-gradient(ellipse 80% 60% at 50% 40%, transparent 55%, rgba(0,0,0,0.55) 100%);
+  }
   #embers{ position:absolute; inset:0; z-index:1; pointer-events:none; }
   header.hero .content{ position:relative; z-index:2; }
+
   .eyebrow{
     font-family:'Barlow Condensed', sans-serif; font-weight:600;
-    letter-spacing:0.35em; text-transform:uppercase; font-size:0.8rem;
-    color:var(--ember); margin-bottom:22px; display:inline-block;
+    letter-spacing:0.4em; text-transform:uppercase; font-size:0.8rem;
+    color:var(--ember); margin-bottom:26px; display:inline-flex; align-items:center;
+    opacity:0; animation:fade-up .9s ease forwards .1s;
   }
-  .eyebrow::before, .eyebrow::after{ content:"—"; margin:0 10px; color:var(--blood-dark); }
+  .eyebrow::before, .eyebrow::after{ content:""; width:26px; height:1px; background:var(--blood-dim); margin:0 12px; }
+
   .clan-tag{
-    font-size:clamp(3.5rem, 12vw, 8.5rem);
-    font-weight:700;
-    line-height:0.95;
+    font-family:'Barlow Condensed', sans-serif;
+    font-size:clamp(3.6rem, 13vw, 9.5rem);
+    font-weight:900;
+    line-height:0.92;
     color:var(--bone);
-    text-shadow: 0 0 40px rgba(255,90,31,0.25);
-    letter-spacing:0.02em;
+    text-shadow: 0 0 60px rgba(255,90,31,0.3), 0 0 120px rgba(193,28,28,0.2);
+    letter-spacing:0.01em;
+    opacity:0; animation:fade-up 1s ease forwards .25s;
   }
-  .clan-tag .brace{ color:var(--blood); }
+  .clan-tag .brace{ color:var(--blood); display:inline-block; animation:brace-glow 3.4s ease-in-out infinite; }
+  .clan-tag .brace.right{ animation-delay:1.7s; }
+  @keyframes brace-glow{
+    0%,100%{ text-shadow:0 0 18px rgba(193,28,28,0.4); }
+    50%{ text-shadow:0 0 34px rgba(255,90,31,0.85); }
+  }
+
+  .hero-rule{
+    width:64px; height:2px; margin:30px auto 0;
+    background:linear-gradient(90deg, transparent, var(--ember), transparent);
+    opacity:0; animation:fade-up .9s ease forwards .4s;
+  }
+
   .hero-sub{
-    max-width:560px; margin:26px auto 0; color:var(--ash); font-size:1.05rem; line-height:1.6;
+    max-width:560px; margin:26px auto 0; color:var(--ash); font-size:1.08rem; line-height:1.7;
+    opacity:0; animation:fade-up .9s ease forwards .5s;
   }
-  .hero-cta{ margin-top:40px; display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+  .hero-cta{ margin-top:42px; display:flex; gap:16px; justify-content:center; flex-wrap:wrap;
+    opacity:0; animation:fade-up .9s ease forwards .65s;
+  }
+  @keyframes fade-up{
+    from{ opacity:0; transform:translateY(16px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+
   .btn{
-    font-family:'Barlow Condensed', sans-serif; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
-    padding:14px 30px; text-decoration:none; font-size:0.92rem; border:1px solid transparent; transition:all .2s;
-    display:inline-block;
+    font-family:'Barlow Condensed', sans-serif; font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
+    padding:15px 32px; text-decoration:none; font-size:0.92rem; border:1px solid transparent;
+    transition:all .25s cubic-bezier(.2,.8,.2,1);
+    display:inline-flex; align-items:center; gap:10px; position:relative;
   }
-  .btn-primary{ background:var(--blood); color:var(--bone); }
-  .btn-primary:hover, .btn-primary:focus-visible{ background:var(--ember); }
-  .btn-ghost{ border-color:var(--line); color:var(--bone); }
-  .btn-ghost:hover, .btn-ghost:focus-visible{ border-color:var(--ember); color:var(--ember); }
+  .btn-primary{ background:linear-gradient(135deg, var(--blood), var(--blood-dim)); color:var(--bone); box-shadow:0 0 0 rgba(255,90,31,0); }
+  .btn-primary:hover, .btn-primary:focus-visible{ background:linear-gradient(135deg, var(--ember), var(--blood)); box-shadow:0 6px 26px rgba(255,90,31,0.35); transform:translateY(-2px); }
+  .btn-ghost{ border-color:var(--line-strong); color:var(--bone); }
+  .btn-ghost:hover, .btn-ghost:focus-visible{ border-color:var(--ember); color:var(--ember); background:rgba(255,90,31,0.06); transform:translateY(-2px); }
 
   .scroll-cue{
-    position:absolute; bottom:28px; left:50%; transform:translateX(-50%);
-    font-size:0.7rem; letter-spacing:0.3em; text-transform:uppercase; color:var(--ash);
-    display:flex; flex-direction:column; align-items:center; gap:8px;
+    position:absolute; bottom:32px; left:50%; transform:translateX(-50%); z-index:2;
+    font-size:0.7rem; letter-spacing:0.32em; text-transform:uppercase; color:var(--ash);
+    display:flex; flex-direction:column; align-items:center; gap:10px;
+    opacity:0; animation:fade-up .9s ease forwards .9s;
   }
   .scroll-cue::after{
-    content:""; width:1px; height:34px; background:linear-gradient(var(--ember), transparent);
+    content:""; width:1px; height:38px; background:linear-gradient(var(--ember), transparent);
     animation:pulse-line 1.8s ease-in-out infinite;
   }
-  @keyframes pulse-line{ 0%,100%{opacity:.3;} 50%{opacity:1;} }
+  @keyframes pulse-line{ 0%,100%{opacity:.25;} 50%{opacity:1;} }
 
   /* ---------- section shell ---------- */
-  section{ padding:110px 0; border-bottom:1px solid var(--line); position:relative; }
-  .section-head{ margin-bottom:56px; }
-  .section-num{ font-family:'Barlow Condensed'; color:var(--blood); font-weight:700; letter-spacing:0.2em; font-size:0.85rem; margin-bottom:10px; display:block;}
-  .section-title{ font-size:clamp(2rem, 4.5vw, 3.2rem); font-weight:600; }
+  section{ padding:120px 0; border-bottom:1px solid var(--line); position:relative; }
+  .section-head{ margin-bottom:60px; }
+  .section-num{ font-family:'Barlow Condensed'; color:var(--blood); font-weight:700; letter-spacing:0.22em; font-size:0.85rem; margin-bottom:12px; display:block;}
+  .section-title{ font-size:clamp(2.1rem, 4.5vw, 3.4rem); font-weight:600; }
   .section-title em{ font-style:normal; color:var(--ember); }
-  .section-desc{ color:var(--ash); max-width:600px; margin-top:14px; line-height:1.6; }
+  .section-desc{ color:var(--ash); max-width:620px; margin-top:16px; line-height:1.7; font-size:1.02rem; }
+
+  /* scroll reveal */
+  .reveal{ opacity:0; transform:translateY(26px); transition:opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
+  .reveal.in-view{ opacity:1; transform:translateY(0); }
 
   /* ---------- about ---------- */
-  #about .grid{ display:grid; grid-template-columns: 1.1fr 0.9fr; gap:60px; align-items:start; }
-  #about p{ color:#cfc7bd; line-height:1.85; font-size:1.05rem; margin-bottom:18px; }
+  #about{ position:relative; }
+  #about::before{
+    content:"{ JSR }"; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    font-family:'Barlow Condensed'; font-weight:900; font-size:min(30vw, 420px); color:var(--bone);
+    opacity:0.02; letter-spacing:0.05em; white-space:nowrap; pointer-events:none; z-index:0;
+  }
+  #about .grid{ display:grid; grid-template-columns: 1.15fr 0.85fr; gap:70px; align-items:start; position:relative; z-index:1; }
+  #about p{ color:#d3cbc1; line-height:1.9; font-size:1.07rem; margin-bottom:20px; max-width:56ch; }
+  .dossier{ display:flex; flex-direction:column; gap:14px; }
   .stat-plate{
-    background:var(--plate); border:1px solid var(--line); padding:26px 24px; margin-bottom:14px;
-    border-left:3px solid var(--blood);
+    background:linear-gradient(160deg, var(--iron), var(--char));
+    border:1px solid var(--line); padding:28px 26px;
+    border-left:3px solid var(--blood-dim);
+    position:relative; overflow:hidden;
+    transition:border-color .3s ease, transform .3s ease, box-shadow .3s ease;
   }
-  .stat-plate .num{ font-family:'Barlow Condensed'; font-size:2.2rem; font-weight:700; color:var(--bone); }
-  .stat-plate .label{ color:var(--ash); font-size:0.82rem; text-transform:uppercase; letter-spacing:0.1em; margin-top:2px;}
+  .stat-plate::after{
+    content:""; position:absolute; inset:0; background:radial-gradient(circle at 100% 0%, rgba(255,90,31,0.12), transparent 60%);
+    opacity:0; transition:opacity .3s ease;
+  }
+  .stat-plate:hover{ border-left-color:var(--ember); transform:translateX(4px); box-shadow:-6px 0 24px rgba(193,28,28,0.15); }
+  .stat-plate:hover::after{ opacity:1; }
+  .stat-plate .num{ font-family:'Barlow Condensed'; font-size:2.3rem; font-weight:800; color:var(--bone); position:relative; z-index:1; }
+  .stat-plate .label{ color:var(--ash); font-size:0.82rem; text-transform:uppercase; letter-spacing:0.12em; margin-top:4px; position:relative; z-index:1; }
 
-  /* ---------- code / rules (the signature element) ---------- */
+  /* ---------- code / rules ---------- */
   #code{ background:var(--char); }
-  .code-list{ display:flex; flex-direction:column; border-top:1px solid var(--line); }
+  .code-list{ display:grid; grid-template-columns:1fr 1fr; gap:22px; }
   .code-item{
-    display:grid; grid-template-columns: 90px 1fr; gap:28px;
-    padding:30px 0; border-bottom:1px solid var(--line);
-    position:relative;
+    background:linear-gradient(160deg, var(--iron), var(--char));
+    border:1px solid var(--line); padding:32px 30px;
+    position:relative; overflow:hidden;
+    transition:border-color .3s ease, transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease;
   }
-  .code-item .mark{
-    font-family:'Barlow Condensed'; font-weight:700; font-size:2.4rem; color:var(--blood-dark);
-    transition:color .25s;
-  }
-  .code-item:hover .mark{ color:var(--blood); }
-  .code-item h3{ font-size:1.25rem; font-weight:600; margin-bottom:8px; color:var(--bone); }
-  .code-item p{ color:var(--ash); line-height:1.65; max-width:640px; }
   .code-item::before{
-    content:""; position:absolute; left:0; top:0; height:0; width:2px; background:var(--ember);
-    transition:height .3s ease;
+    content:""; position:absolute; left:0; top:0; bottom:0; width:3px;
+    background:linear-gradient(var(--blood-dim), var(--ember));
+    transform:scaleY(0); transform-origin:top; transition:transform .4s ease;
   }
-  .code-item:hover::before{ height:100%; }
+  .code-item:hover{ transform:translateY(-6px); border-color:var(--line-strong); box-shadow:0 18px 40px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,90,31,0.06); }
+  .code-item:hover::before{ transform:scaleY(1); }
+  .code-item .mark-badge{
+    width:52px; height:52px; border-radius:50%;
+    border:1px solid var(--line-strong);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Barlow Condensed'; font-weight:800; font-size:1.3rem; color:var(--blood-dim);
+    margin-bottom:20px;
+    transition:color .3s ease, border-color .3s ease, box-shadow .3s ease;
+    background:radial-gradient(circle at 30% 30%, rgba(255,90,31,0.08), transparent 70%);
+  }
+  .code-item:hover .mark-badge{ color:var(--ember); border-color:var(--ember); box-shadow:0 0 22px rgba(255,90,31,0.35); }
+  .code-item h3{ font-size:1.22rem; font-weight:600; margin-bottom:10px; color:var(--bone); }
+  .code-item p{ color:var(--ash); line-height:1.7; font-size:0.97rem; }
 
   /* ---------- ranks ---------- */
-  #ranks .rank-row{
-    display:grid; grid-template-columns: 220px 1fr 120px; gap:20px; align-items:center;
-    padding:20px 22px; background:var(--plate); border:1px solid var(--line); margin-bottom:10px;
+  #ranks .ladder{ position:relative; display:flex; flex-direction:column; gap:12px; }
+  #ranks .ladder::before{
+    content:""; position:absolute; left:25px; top:12px; bottom:12px; width:1px;
+    background:linear-gradient(var(--blood), var(--ember), transparent);
+    opacity:0.4;
   }
-  #ranks .rank-name{ font-family:'Barlow Condensed'; font-weight:700; font-size:1.15rem; letter-spacing:.04em; }
-  #ranks .rank-name .dot{ display:inline-block; width:8px; height:8px; background:var(--blood); margin-right:10px; }
-  #ranks .rank-desc{ color:var(--ash); font-size:0.92rem; }
-  #ranks .rank-tag{ text-align:right; font-size:0.75rem; letter-spacing:.15em; text-transform:uppercase; color:var(--ember); }
+  #ranks .rank-row{
+    display:grid; grid-template-columns: 52px 200px 1fr 130px; gap:22px; align-items:center;
+    padding:22px 24px; background:linear-gradient(160deg, var(--iron), var(--char));
+    border:1px solid var(--line); position:relative;
+    transition:border-color .3s ease, transform .3s ease, box-shadow .3s ease;
+  }
+  #ranks .rank-row:hover{ border-color:var(--line-strong); transform:translateX(6px); box-shadow:-8px 0 28px rgba(193,28,28,0.14); }
+  #ranks .rank-index{
+    width:16px; height:16px; border-radius:50%; background:var(--char);
+    border:2px solid var(--blood-dim); position:relative; z-index:1; justify-self:center;
+    transition:border-color .3s ease, box-shadow .3s ease;
+  }
+  #ranks .rank-row:hover .rank-index{ border-color:var(--ember); box-shadow:0 0 14px rgba(255,90,31,0.6); }
+  #ranks .rank-name{ font-family:'Barlow Condensed', sans-serif; font-weight:700; font-size:1.18rem; letter-spacing:.04em; }
+  #ranks .rank-desc{ color:var(--ash); font-size:0.93rem; line-height:1.5; }
+  #ranks .rank-tag{
+    justify-self:end; font-size:0.72rem; letter-spacing:.15em; text-transform:uppercase; color:var(--ember);
+    border:1px solid rgba(255,90,31,0.3); padding:6px 14px; border-radius:999px;
+    background:rgba(255,90,31,0.06);
+  }
+
+  /* ---------- mod ---------- */
+  #mod{ background:var(--char); position:relative; overflow:hidden; }
+  #mod::before{
+    content:""; position:absolute; top:-20%; right:-10%; width:60%; height:140%;
+    background:radial-gradient(ellipse at center, rgba(193,28,28,0.16), transparent 65%);
+    pointer-events:none;
+  }
+  .mod-panel{
+    position:relative; z-index:1;
+    display:grid; grid-template-columns:1fr 1fr; gap:0;
+    border:1px solid var(--line-strong);
+    background:linear-gradient(160deg, var(--iron), var(--char));
+    overflow:hidden;
+  }
+  .mod-panel::before{
+    content:""; position:absolute; inset:0; padding:1px; border-radius:0;
+    background:linear-gradient(120deg, rgba(255,90,31,0.5), transparent 30%, transparent 70%, rgba(193,28,28,0.5));
+    -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor; mask-composite:exclude;
+    pointer-events:none; opacity:.6;
+  }
+  .mod-info{ padding:48px 46px; }
+  .mod-visual{
+    padding:48px 46px; display:flex; flex-direction:column; justify-content:center; align-items:flex-start;
+    background:radial-gradient(ellipse at 30% 30%, rgba(255,90,31,0.1), transparent 65%), var(--void);
+    border-left:1px solid var(--line);
+    position:relative;
+  }
+  .mod-version-badge{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'Barlow Condensed'; font-size:0.78rem; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--ember); border:1px solid rgba(255,90,31,0.35); padding:7px 16px; border-radius:999px;
+    background:rgba(255,90,31,0.07); margin-bottom:22px;
+  }
+  .mod-version-badge::before{
+    content:""; width:7px; height:7px; border-radius:50%; background:var(--ember);
+    box-shadow:0 0 10px var(--ember); animation:blink 1.6s ease-in-out infinite;
+  }
+  @keyframes blink{ 0%,100%{opacity:1;} 50%{opacity:.35;} }
+  .mod-title{ font-family:'Barlow Condensed'; font-size:2.1rem; font-weight:800; margin-bottom:16px; letter-spacing:.02em; }
+  .mod-info p{ color:var(--ash); line-height:1.75; font-size:1rem; margin-bottom:28px; }
+  .mod-info .btn-primary{ padding:16px 36px; font-size:0.95rem; }
+  .mod-info .btn-primary svg{ width:16px; height:16px; }
+  .mod-glyph{
+    width:120px; height:120px; border-radius:50%;
+    border:1px solid var(--line-strong);
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom:24px;
+    background:radial-gradient(circle at 35% 30%, rgba(255,90,31,0.18), transparent 70%);
+    animation:glyph-pulse 4s ease-in-out infinite;
+  }
+  @keyframes glyph-pulse{
+    0%,100%{ box-shadow:0 0 0 rgba(255,90,31,0); }
+    50%{ box-shadow:0 0 34px rgba(255,90,31,0.25); }
+  }
+  .mod-visual h4{ font-family:'Barlow Condensed'; letter-spacing:.15em; text-transform:uppercase; font-size:0.85rem; color:var(--ash); margin-bottom:6px; }
+  .mod-visual .mod-tagline{ color:var(--bone); font-size:1.05rem; font-weight:500; max-width:280px; line-height:1.5; }
 
   /* ---------- join ---------- */
-  #join{ text-align:center; border-bottom:none; }
+  #join{ text-align:center; border-bottom:none; position:relative; overflow:hidden; }
+  #join::before{
+    content:""; position:absolute; top:0; left:50%; transform:translateX(-50%); width:900px; height:900px;
+    background:radial-gradient(circle, rgba(193,28,28,0.14), transparent 60%);
+    pointer-events:none;
+  }
   #join .section-title{ margin-bottom:16px; }
   #join .section-desc{ margin-left:auto; margin-right:auto; }
   .join-box{
-    margin-top:44px; padding:50px 40px; background:
-      radial-gradient(ellipse at 50% 0%, rgba(193,28,28,0.18), transparent 70%), var(--plate);
-    border:1px solid var(--line); max-width:640px; margin-left:auto; margin-right:auto;
+    position:relative; z-index:1;
+    margin-top:48px; padding:56px 44px;
+    background:linear-gradient(160deg, var(--iron), var(--char));
+    border:1px solid var(--line-strong); max-width:640px; margin-left:auto; margin-right:auto;
+    box-shadow:0 30px 80px rgba(0,0,0,0.5);
   }
-  .join-box .btn{ margin-top:10px; }
-  .contact-line{ margin-top:22px; color:var(--ash); font-size:0.9rem; }
-  .contact-line b{ color:var(--bone); font-weight:600; }
+  .join-box::before{
+    content:""; position:absolute; top:0; left:0; right:0; height:2px;
+    background:linear-gradient(90deg, transparent, var(--ember), transparent);
+  }
+  .join-box .btn{ margin-top:14px; }
+  .contact-line{
+    margin-top:16px; color:var(--bone); font-size:0.95rem;
+    display:flex; align-items:center; justify-content:center; gap:10px;
+  }
+  .contact-line b{ color:var(--ash); font-weight:600; font-size:0.78rem; text-transform:uppercase; letter-spacing:.1em; }
+  .discord-dot{ width:7px; height:7px; border-radius:50%; background:var(--ember); box-shadow:0 0 8px var(--ember); display:inline-block; }
 
-  footer{ padding:36px 28px; text-align:center; color:var(--ash); font-size:0.82rem; letter-spacing:0.05em; }
+  footer{ padding:40px 28px; text-align:center; color:var(--ash); font-size:0.82rem; letter-spacing:0.05em; }
   footer span{ color:var(--blood); }
 
+  @media (max-width: 900px){
+    .code-list{ grid-template-columns:1fr; }
+    .mod-panel{ grid-template-columns:1fr; }
+    .mod-visual{ border-left:none; border-top:1px solid var(--line); }
+  }
   @media (max-width: 760px){
-    nav ul{ display:none; }
-    #about .grid{ grid-template-columns:1fr; }
-    .code-item{ grid-template-columns: 50px 1fr; }
-    #ranks .rank-row{ grid-template-columns: 1fr; text-align:left; gap:6px; }
-    #ranks .rank-tag{ text-align:left; }
+    nav ul{
+      position:fixed; top:0; right:0; height:100vh; width:min(78vw, 320px);
+      background:rgba(9,7,6,0.98); backdrop-filter:blur(10px);
+      flex-direction:column; justify-content:center; align-items:flex-start;
+      gap:28px; padding:32px; transform:translateX(100%); transition:transform .35s cubic-bezier(.2,.8,.2,1);
+      border-left:1px solid var(--line-strong); z-index:90; font-size:1rem;
+    }
+    nav ul.open{ transform:translateX(0); }
+    .nav-toggle{ display:flex; }
+    #about .grid{ grid-template-columns:1fr; gap:44px; }
+    #about::before{ display:none; }
+    #ranks .rank-row{ grid-template-columns: 30px 1fr; text-align:left; gap:6px 16px; }
+    #ranks .rank-row .rank-desc, #ranks .rank-row .rank-tag{ grid-column:2; justify-self:start; }
+    #ranks .ladder::before{ left:14px; }
   }
 </style>
 </head>
 <body>
 
-<nav>
+<div id="progress"></div>
+
+<nav id="siteNav">
   <div class="brand">{ J<span>S</span>R }</div>
-  <ul>
-    <li><a href="#about">About</a></li>
-    <li><a href="#code">The Code</a></li>
-    <li><a href="#ranks">Ranks</a></li>
-    <li><a href="#mod">Mod</a></li>
-    <li><a href="#join">Join</a></li>
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle menu"><span></span></button>
+  <ul id="navList">
+    <li><a href="#about" data-nav>About</a></li>
+    <li><a href="#code" data-nav>The Code</a></li>
+    <li><a href="#ranks" data-nav>Ranks</a></li>
+    <li><a href="#mod" data-nav>Mod</a></li>
+    <li><a href="#join" data-nav>Join</a></li>
   </ul>
 </nav>
 
@@ -197,7 +408,8 @@
   <canvas id="embers"></canvas>
   <div class="content">
     <span class="eyebrow">Slither.io Clan</span>
-    <h1 class="clan-tag"><span class="brace">{</span> J S R <span class="brace">}</span></h1>
+    <h1 class="clan-tag"><span class="brace left">{</span> J S R <span class="brace right">}</span></h1>
+    <div class="hero-rule"></div>
     <p class="hero-sub">Not a group you join by accident. JSR is a Slither.io clan built on loyalty, discipline, and standing your ground when it matters — together, every time.</p>
     <div class="hero-cta">
       <a href="#code" class="btn btn-primary">Read the Code</a>
@@ -210,13 +422,13 @@
 <section id="about">
   <div class="wrap">
     <div class="grid">
-      <div>
+      <div class="reveal">
         <span class="section-num">01 — Who We Are</span>
         <h2 class="section-title">This is <em>JSR</em>.</h2>
         <p>JSR is a Slither.io clan — started by people who trusted each other more than the leaderboard around them. That hasn't changed. We're a clan first, a name second — what holds us together is how we treat each other, not a badge or a banner.</p>
         <p>Every member plays under the tag. That means something every time you drop into a server — how you play reflects on all of us, so we hold each other to it.</p>
       </div>
-      <div>
+      <div class="dossier reveal" style="transition-delay:.1s;">
         <div class="stat-plate"><div class="num">2024</div><div class="label">Founded</div></div>
         <div class="stat-plate"><div class="num">—</div><div class="label">Active members</div></div>
         <div class="stat-plate"><div class="num">3</div><div class="label">Core ranks</div></div>
@@ -227,53 +439,41 @@
 
 <section id="code">
   <div class="wrap">
-    <div class="section-head">
+    <div class="section-head reveal">
       <span class="section-num">02 — Rules & Regulations</span>
       <h2 class="section-title">The <em>Code</em></h2>
       <p class="section-desc">Non-negotiable. Every member agrees to this on entry. Break it, and the clan votes on what happens next.</p>
     </div>
     <div class="code-list">
-      <div class="code-item">
-        <div class="mark">I</div>
-        <div>
-          <h3>Respect the tag</h3>
-          <p>Never bring shame to { JSR } in public matches, servers, or chats. What you do under the tag is done in the name of everyone wearing it.</p>
-        </div>
+      <div class="code-item reveal">
+        <div class="mark-badge">I</div>
+        <h3>Respect the tag</h3>
+        <p>Never bring shame to { JSR } in public matches, servers, or chats. What you do under the tag is done in the name of everyone wearing it.</p>
       </div>
-      <div class="code-item">
-        <div class="mark">II</div>
-        <div>
-          <h3>No member left behind</h3>
-          <p>If a clanmate needs backup, you show up. Loyalty isn't optional here — it's the whole point of being a clan instead of a crowd.</p>
-        </div>
+      <div class="code-item reveal" style="transition-delay:.05s;">
+        <div class="mark-badge">II</div>
+        <h3>No member left behind</h3>
+        <p>If a clanmate needs backup, you show up. Loyalty isn't optional here — it's the whole point of being a clan instead of a crowd.</p>
       </div>
-      <div class="code-item">
-        <div class="mark">III</div>
-        <div>
-          <h3>Zero tolerance for disrespect</h3>
-          <p>No harassment, discrimination, or targeting of other members or outsiders. Disagreements happen — cruelty doesn't get a pass.</p>
-        </div>
+      <div class="code-item reveal" style="transition-delay:.1s;">
+        <div class="mark-badge">III</div>
+        <h3>Zero tolerance for disrespect</h3>
+        <p>No harassment, discrimination, or targeting of other members or outsiders. Disagreements happen — cruelty doesn't get a pass.</p>
       </div>
-      <div class="code-item">
-        <div class="mark">IV</div>
-        <div>
-          <h3>Stay active or step aside</h3>
-          <p>Inactive without notice for 30 days? Your spot opens up. Life happens — just tell leadership before you disappear.</p>
-        </div>
+      <div class="code-item reveal" style="transition-delay:.15s;">
+        <div class="mark-badge">IV</div>
+        <h3>Stay active or step aside</h3>
+        <p>Inactive without notice for 30 days? Your spot opens up. Life happens — just tell leadership before you disappear.</p>
       </div>
-      <div class="code-item">
-        <div class="mark">V</div>
-        <div>
-          <h3>Leadership calls are final</h3>
-          <p>Disputes go to the officers. Once a ruling is made, it stands. Take it up privately, never air it publicly.</p>
-        </div>
+      <div class="code-item reveal" style="transition-delay:.2s;">
+        <div class="mark-badge">V</div>
+        <h3>Leadership calls are final</h3>
+        <p>Disputes go to the officers. Once a ruling is made, it stands. Take it up privately, never air it publicly.</p>
       </div>
-      <div class="code-item">
-        <div class="mark">VI</div>
-        <div>
-          <h3>No leaking clan business</h3>
-          <p>Internal strategy, disputes, and member matters stay internal. What's said in the clan stays in the clan.</p>
-        </div>
+      <div class="code-item reveal" style="transition-delay:.25s;">
+        <div class="mark-badge">VI</div>
+        <h3>No leaking clan business</h3>
+        <p>Internal strategy, disputes, and member matters stay internal. What's said in the clan stays in the clan.</p>
       </div>
     </div>
   </div>
@@ -281,64 +481,84 @@
 
 <section id="ranks">
   <div class="wrap">
-    <div class="section-head">
+    <div class="section-head reveal">
       <span class="section-num">03 — Structure</span>
       <h2 class="section-title">Chain of <em>Command</em></h2>
       <p class="section-desc">Every clan needs order. Here's who answers to who — and what each rank is trusted with.</p>
     </div>
-    <div class="rank-row">
-      <div class="rank-name"><span class="dot"></span>Leader</div>
-      <div class="rank-desc">Final say on all major decisions, admits new members, sets clan direction.</div>
-      <div class="rank-tag">Founder</div>
-    </div>
-    <div class="rank-row">
-      <div class="rank-name"><span class="dot"></span>Officer</div>
-      <div class="rank-desc">Enforces the Code, mediates disputes, mentors newer members.</div>
-      <div class="rank-tag">Trusted</div>
-    </div>
-    <div class="rank-row">
-      <div class="rank-name"><span class="dot"></span>Veteran</div>
-      <div class="rank-desc">Long-standing members who've proven loyalty and reliability over time.</div>
-      <div class="rank-tag">Core</div>
-    </div>
-    <div class="rank-row">
-      <div class="rank-name"><span class="dot"></span>Member</div>
-      <div class="rank-desc">Full clan rights and voice. Bound by the Code like everyone else.</div>
-      <div class="rank-tag">Active</div>
-    </div>
-    <div class="rank-row">
-      <div class="rank-name"><span class="dot"></span>Recruit</div>
-      <div class="rank-desc">Trial period. Proving themselves before being voted in as a full member.</div>
-      <div class="rank-tag">Trial</div>
+    <div class="ladder">
+      <div class="rank-row reveal">
+        <div class="rank-index"></div>
+        <div class="rank-name">Leader</div>
+        <div class="rank-desc">Final say on all major decisions, admits new members, sets clan direction.</div>
+        <div class="rank-tag">Founder</div>
+      </div>
+      <div class="rank-row reveal" style="transition-delay:.05s;">
+        <div class="rank-index"></div>
+        <div class="rank-name">Officer</div>
+        <div class="rank-desc">Enforces the Code, mediates disputes, mentors newer members.</div>
+        <div class="rank-tag">Trusted</div>
+      </div>
+      <div class="rank-row reveal" style="transition-delay:.1s;">
+        <div class="rank-index"></div>
+        <div class="rank-name">Veteran</div>
+        <div class="rank-desc">Long-standing members who've proven loyalty and reliability over time.</div>
+        <div class="rank-tag">Core</div>
+      </div>
+      <div class="rank-row reveal" style="transition-delay:.15s;">
+        <div class="rank-index"></div>
+        <div class="rank-name">Member</div>
+        <div class="rank-desc">Full clan rights and voice. Bound by the Code like everyone else.</div>
+        <div class="rank-tag">Active</div>
+      </div>
+      <div class="rank-row reveal" style="transition-delay:.2s;">
+        <div class="rank-index"></div>
+        <div class="rank-name">Recruit</div>
+        <div class="rank-desc">Trial period. Proving themselves before being voted in as a full member.</div>
+        <div class="rank-tag">Trial</div>
+      </div>
     </div>
   </div>
 </section>
 
-<section id="mod" style="background:var(--char);">
+<section id="mod">
   <div class="wrap">
-    <div class="section-head">
+    <div class="section-head reveal">
       <span class="section-num">04 — Our Mod</span>
       <h2 class="section-title">JSR <em>Vlither</em> Mod</h2>
       <p class="section-desc">Our clan's custom Slither.io mod. Built by JSR, for JSR — official members get access.</p>
     </div>
-    <div class="join-box" style="text-align:left; margin:0;">
-      <h3 style="font-family:'Barlow Condensed'; font-size:1.4rem; font-weight:700; letter-spacing:.05em; margin-bottom:12px;">Vlither</h3>
-      <p style="color:var(--ash); line-height:1.65;">Vlither is available to verified { JSR } members only — it isn't shared outside the clan. Current version: <b>v1.1</b>. Ask an Officer for setup help or to report an issue.</p>
-      <a href="https://github.com/tarangop302-max/jsr-clan-web/releases/download/v1/app-debug.apk" class="btn btn-primary" style="margin-top:22px;">Download Vlither</a>
+    <div class="mod-panel reveal">
+      <div class="mod-info">
+        <div class="mod-version-badge">Current version · v1.1</div>
+        <h3 class="mod-title">Vlither</h3>
+        <p>Vlither is available to verified { JSR } members only — it isn't shared outside the clan. Ask an Officer for setup help or to report an issue.</p>
+        <a href="https://github.com/tarangop302-max/jsr-clan-web/releases/download/v1/app-debug.apk" class="btn btn-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download Vlither
+        </a>
+      </div>
+      <div class="mod-visual">
+        <div class="mod-glyph">
+          <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#ff5a1f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12c2-4 4-6 6-6s3 3 5 3 4-3 6-1"/><path d="M3 17c2-4 4-6 6-6s3 3 5 3 4-3 6-1"/></svg>
+        </div>
+        <h4>Members Only</h4>
+        <p class="mod-tagline">Built by JSR, for JSR. Access is a privilege of the tag.</p>
+      </div>
     </div>
   </div>
 </section>
 
 <section id="join">
   <div class="wrap">
-    <span class="section-num">05 — Get In</span>
-    <h2 class="section-title">Think you've got <em>what it takes?</em></h2>
-    <p class="section-desc">We're not looking for numbers. We're looking for people who'll actually show up for the tag.</p>
-    <div class="join-box">
-      <h3 style="font-family:'Barlow Condensed'; font-size:1.4rem; font-weight:700; letter-spacing:.05em; margin-bottom:12px;">Request to join { JSR }</h3>
-      <p style="color:var(--ash); line-height:1.6;">Reach out to the Leader or an Officer on Discord. Be ready to talk about who you are and why you want in — we vet before we admit.</p>
-      <div class="contact-line" style="margin-top:0;"><b>Leader</b> — Discord: @zoro.jsr</div>
-      <div class="contact-line">Moderator/Officer — Discord: @.hrsh.</div>
+    <span class="section-num reveal">05 — Get In</span>
+    <h2 class="section-title reveal">Think you've got <em>what it takes?</em></h2>
+    <p class="section-desc reveal">We're not looking for numbers. We're looking for people who'll actually show up for the tag.</p>
+    <div class="join-box reveal">
+      <h3 style="font-family:'Barlow Condensed'; font-size:1.5rem; font-weight:800; letter-spacing:.03em; margin-bottom:14px;">Request to join { JSR }</h3>
+      <p style="color:var(--ash); line-height:1.7;">Reach out to the Leader or an Officer on Discord. Be ready to talk about who you are and why you want in — we vet before we admit.</p>
+      <div class="contact-line"><span class="discord-dot"></span><b>Leader</b> @zoro.jsr</div>
+      <div class="contact-line"><span class="discord-dot"></span><b>Moderator/Officer</b> @.hrsh.</div>
     </div>
   </div>
 </section>
@@ -348,6 +568,61 @@
 </footer>
 
 <script>
+  // Scroll progress bar
+  const progress = document.getElementById('progress');
+  function updateProgress(){
+    const h = document.documentElement;
+    const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+    progress.style.width = scrolled + '%';
+  }
+  document.addEventListener('scroll', updateProgress, { passive:true });
+  updateProgress();
+
+  // Nav scrolled state
+  const nav = document.getElementById('siteNav');
+  function updateNav(){
+    if(window.scrollY > 40) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  }
+  document.addEventListener('scroll', updateNav, { passive:true });
+  updateNav();
+
+  // Mobile nav toggle
+  const toggle = document.getElementById('navToggle');
+  const navList = document.getElementById('navList');
+  toggle.addEventListener('click', () => {
+    toggle.classList.toggle('open');
+    navList.classList.toggle('open');
+  });
+  navList.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    toggle.classList.remove('open');
+    navList.classList.remove('open');
+  }));
+
+  // Active section highlighting
+  const navLinks = document.querySelectorAll('a[data-nav]');
+  const sections = Array.from(navLinks).map(a => document.querySelector(a.getAttribute('href')));
+  const navObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        const id = '#' + entry.target.id;
+        navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === id));
+      }
+    });
+  }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+  sections.forEach(s => s && navObserver.observe(s));
+
+  // Scroll reveal
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('in-view');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
   // Ambient ember particles rising in the hero
   const canvas = document.getElementById('embers');
   const ctx = canvas.getContext('2d');
@@ -373,7 +648,7 @@
       flicker: Math.random() * 0.02
     };
   }
-  const COUNT = 70;
+  const COUNT = 80;
   for(let i=0;i<COUNT;i++){
     const p = makeParticle();
     p.y = Math.random() * canvas.height;
@@ -401,7 +676,6 @@
     if(!reduceMotion) requestAnimationFrame(draw);
   }
   if(!reduceMotion){ draw(); } else {
-    // static single frame render
     draw = null;
     ctx.clearRect(0,0,canvas.width,canvas.height);
   }
