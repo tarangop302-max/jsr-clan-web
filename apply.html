@@ -1,273 +1,218 @@
 <!DOCTYPE html>
-<html lang="en" class="dark scroll-smooth">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apply to Join { J S R } Clan</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>J S R Clan - Join Us</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    body {
+      background-color: #0d0c1d;
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
 
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    .form-container {
+      background: #161224;
+      border: 1px solid #2d224d;
+      border-radius: 12px;
+      padding: 30px;
+      width: 100%;
+      max-width: 500px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    }
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    .form-group {
+      margin-bottom: 20px;
+    }
 
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            bg: '#0b0a10',
-                            card: '#110f19',
-                            border: 'rgba(255, 255, 255, 0.08)',
-                            orange: '#ff6b00',
-                            orangeLight: '#ff9d00',
-                            purple: '#1e1436'
-                        }
-                    },
-                    fontFamily: {
-                        orbitron: ['Orbitron', 'sans-serif'],
-                        rajdhani: ['Rajdhani', 'sans-serif'],
-                        grotesk: ['Space Grotesk', 'sans-serif']
-                    }
-                }
-            }
-        }
-    </script>
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #ff6b00;
+      margin-bottom: 8px;
+    }
 
-    <style>
-        body {
-            background-color: #0b0a10;
-            color: #e2e8f0;
-            font-family: 'Space Grotesk', 'Rajdhani', sans-serif;
-            overflow-x: hidden;
-        }
+    input, select, textarea {
+      width: 100%;
+      padding: 12px 15px;
+      background: #0d0b18;
+      border: 1px solid #2d224d;
+      border-radius: 6px;
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
 
-        ::-webkit-scrollbar { width: 7px; }
-        ::-webkit-scrollbar-track { background: #0b0a10; }
-        ::-webkit-scrollbar-thumb { background: #1f1b2e; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #ff6b00; }
+    input:focus, select:focus, textarea:focus {
+      border-color: #ff6b00;
+    }
 
-        .glass-panel {
-            background: rgba(17, 15, 25, 0.75);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
 
-        .neon-orange-text {
-            color: #ff6b00;
-            text-shadow: 0 0 15px rgba(255, 107, 0, 0.6);
-        }
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(90deg, #ff8c00, #ff4500);
+      border: none;
+      border-radius: 6px;
+      color: #fff;
+      font-weight: bold;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
 
-        .btn-glow-orange {
-            background: linear-gradient(135deg, #ff6b00 0%, #ff9d00 100%);
-            color: #0b0a10;
-            font-weight: 700;
-            letter-spacing: 0.05em;
-            box-shadow: 0 0 20px rgba(255, 107, 0, 0.35);
-            transition: all 0.3s ease;
-        }
-        .btn-glow-orange:hover {
-            box-shadow: 0 0 35px rgba(255, 107, 0, 0.7);
-            transform: translateY(-2px) scale(1.02);
-        }
-    </style>
+    .btn-submit:hover {
+      opacity: 0.9;
+    }
+
+    .btn-submit:disabled {
+      background: #4a4a4a;
+      cursor: not-allowed;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #161224;
+      border: 1px solid #ff6b00;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      display: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      z-index: 1000;
+    }
+  </style>
 </head>
-<body class="relative bg-brand-bg text-gray-200 antialiased selection:bg-brand-orange selection:text-black min-h-screen flex flex-col">
+<body>
 
-    <!-- Toast Notification -->
-    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 ease-out glass-panel border border-brand-orange text-white px-5 py-3.5 rounded-xl flex items-center gap-3 shadow-2xl">
-        <i class="fa-solid fa-circle-check text-brand-orange text-lg"></i>
-        <span id="toast-msg" class="font-grotesk font-semibold text-sm">Action completed</span>
-    </div>
+  <div class="form-container">
+    <form id="apply-form">
+      <div class="form-group">
+        <label for="ign">In-Game Name / Nickname *</label>
+        <input type="text" id="ign" required placeholder="e.g. Zoro">
+      </div>
 
-    <!-- Simple Header -->
-    <header class="w-full glass-panel border-b border-brand-border">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
-            <a href="index.html" class="flex items-center gap-3.5 group">
-                <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-brand-orange/30 via-purple-900/40 to-black p-0.5 border border-brand-orange/40 shadow-lg group-hover:scale-105 group-hover:border-brand-orange transition-all overflow-hidden flex items-center justify-center">
-                    <img src="logo.png" alt="JSR Logo" class="w-full h-full object-cover rounded-lg">
-                </div>
-                <div class="flex flex-col">
-                    <span class="font-orbitron font-bold text-lg tracking-wider text-white group-hover:text-brand-orange transition-colors">
-                        { J S R }
-                    </span>
-                    <span class="text-[10px] text-gray-400 tracking-widest font-mono uppercase">JAY SIYA RAM</span>
-                </div>
-            </a>
-            <a href="index.html" class="text-xs font-orbitron font-bold tracking-widest text-gray-300 hover:text-brand-orange transition-colors flex items-center gap-2">
-                <i class="fa-solid fa-arrow-left"></i> BACK
-            </a>
-        </div>
-    </header>
+      <div class="form-group">
+        <label for="discord">Discord Username *</label>
+        <input type="text" id="discord" required placeholder="e.g. Zoro">
+      </div>
 
-    <!-- Application Section -->
-    <main class="flex-1 py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto w-full">
-        <div class="text-center mb-10">
-            <span class="text-brand-orange font-mono text-xs uppercase tracking-widest">Application Room</span>
-            <h1 class="font-orbitron font-bold text-3xl sm:text-4xl text-white tracking-wider mt-1 mb-3">
-                JOIN <span class="neon-orange-text">{ J S R }</span> CLAN
-            </h1>
-            <p class="text-gray-400 text-sm sm:text-base max-w-xl mx-auto">
-                Ready to represent? Fill out the form below to submit your application directly to our recruitment team.
-            </p>
-            <div class="w-20 h-0.5 bg-brand-orange mx-auto mt-4"></div>
-        </div>
+      <div class="form-group">
+        <label for="score">Personal Best Score</label>
+        <input type="text" id="score" placeholder="e.g. 217000">
+      </div>
 
-        <!-- Application Form Card -->
-        <div class="glass-panel border border-purple-900/50 rounded-2xl p-6 sm:p-8 shadow-2xl bg-black/40 backdrop-blur-md">
-            <form id="jsr-application-form" class="space-y-6">
+      <div class="form-group">
+        <label for="playstyle">Preferred Playstyle</label>
+        <select id="playstyle">
+          <option value="Aggressive / Trapper">Aggressive / Trapper</option>
+          <option value="Defensive / Support">Defensive / Support</option>
+          <option value="Balanced">Balanced</option>
+        </select>
+      </div>
 
-                <!-- In-Game Name (IGN) -->
-                <div>
-                    <label for="ign" class="block font-orbitron text-xs sm:text-sm text-brand-orange uppercase tracking-wider mb-2">
-                        In-Game Name / Nickname *
-                    </label>
-                    <input type="text" id="ign" name="ign" required placeholder="e.g. {JSR} Viper"
-                           class="w-full bg-purple-950/20 border border-purple-800/40 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange transition-all">
-                </div>
+      <div class="form-group">
+        <label for="reason">Why do you want to join { J S R }? *</label>
+        <textarea id="reason" required placeholder="Tell us about yourself..."></textarea>
+      </div>
 
-                <!-- Discord Tag / Contact -->
-                <div>
-                    <label for="discord" class="block font-orbitron text-xs sm:text-sm text-brand-orange uppercase tracking-wider mb-2">
-                        Discord Username *
-                    </label>
-                    <input type="text" id="discord" name="discord" required placeholder="e.g. player_1234"
-                           class="w-full bg-purple-950/20 border border-purple-800/40 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange transition-all">
-                </div>
+      <button type="submit" class="btn-submit" id="submit-btn">Submit Application</button>
+    </form>
+  </div>
 
-                <!-- Slither.io Experience & High Score -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div>
-                        <label for="highscore" class="block font-orbitron text-xs sm:text-sm text-brand-orange uppercase tracking-wider mb-2">
-                            Personal Best Score
-                        </label>
-                        <input type="number" id="highscore" name="highscore" placeholder="e.g. 45000"
-                               class="w-full bg-purple-950/20 border border-purple-800/40 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange transition-all">
-                    </div>
-                    <div>
-                        <label for="playstyle" class="block font-orbitron text-xs sm:text-sm text-brand-orange uppercase tracking-wider mb-2">
-                            Preferred Playstyle
-                        </label>
-                        <select id="playstyle" name="playstyle"
-                                class="w-full bg-purple-950/20 border border-purple-800/40 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange transition-all">
-                            <option value="aggressor" class="bg-gray-900">Aggressive / Trapper</option>
-                            <option value="defensive" class="bg-gray-900">Defensive / Farmer</option>
-                            <option value="support" class="bg-gray-900">Team Support / Cover</option>
-                        </select>
-                    </div>
-                </div>
+  <div id="toast" class="toast"></div>
 
-                <!-- Why do you want to join? -->
-                <div>
-                    <label for="reason" class="block font-orbitron text-xs sm:text-sm text-brand-orange uppercase tracking-wider mb-2">
-                        Why do you want to join { J S R }? *
-                    </label>
-                    <textarea id="reason" name="reason" rows="4" required placeholder="Tell us about your experience and why you want to join the clan..."
-                              class="w-full bg-purple-950/20 border border-purple-800/40 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange transition-all resize-none"></textarea>
-                </div>
+  <script>
+    const form = document.getElementById('apply-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const toast = document.getElementById('toast');
 
-                <!-- Submit Button -->
-                <button type="submit" id="submit-btn"
-                        class="w-full py-4 bg-gradient-to-r from-orange-500 to-amber-500 text-black font-orbitron font-bold rounded-xl tracking-wider uppercase hover:opacity-90 transition-all shadow-lg shadow-orange-500/20 active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed">
-                    Submit Application
-                </button>
-            </form>
-        </div>
-    </main>
+    // Paste your Discord Webhook URL inside the quotes below
+    const DISCORD_WEBHOOK_URL = 'YOUR_DISCORD_WEBHOOK_URL_HERE';
 
-    <!-- Footer -->
-    <footer class="py-8 border-t border-brand-border bg-brand-bg text-center">
-        <div class="text-sm text-gray-400 font-grotesk">
-            { <span class="text-brand-orange">J S R</span> } — loyalty first, always.
-        </div>
-    </footer>
+    function showToast(message) {
+      toast.innerText = message;
+      toast.style.display = 'block';
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 4000);
+    }
 
-    <script>
-        function showToast(message) {
-            const toast = document.getElementById("toast");
-            const toastMsg = document.getElementById("toast-msg");
-            toastMsg.innerText = message;
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
 
-            toast.classList.remove("translate-y-20", "opacity-0");
-            toast.classList.add("translate-y-0", "opacity-100");
+      if (DISCORD_WEBHOOK_URL === 'https://discord.com/api/webhooks/1547101016585936906/RDCBlAP3tmFQ1Y4SueW9W1TwDoWNfcFuFEtPfzfJRYID3FLqu3JrC807LOenJoMvrVg1' || !DISCORD_WEBHOOK_URL) {
+        showToast("Webhook missing! Please set DISCORD_WEBHOOK_URL in apply.html");
+        return;
+      }
 
-            setTimeout(() => {
-                toast.classList.remove("translate-y-0", "opacity-100");
-                toast.classList.add("translate-y-20", "opacity-0");
-            }, 3000);
+      submitBtn.disabled = true;
+      submitBtn.innerText = "SUBMITTING...";
+
+      const payload = {
+        embeds: [{
+          title: "📥 New Clan Application { J S R }",
+          color: 16738304, // Orange color accent
+          fields: [
+            { name: "In-Game Name", value: document.getElementById('ign').value || 'N/A', inline: true },
+            { name: "Discord Username", value: document.getElementById('discord').value || 'N/A', inline: true },
+            { name: "Personal Best", value: document.getElementById('score').value || 'N/A', inline: true },
+            { name: "Playstyle", value: document.getElementById('playstyle').value || 'N/A', inline: true },
+            { name: "Reason to Join", value: document.getElementById('reason').value || 'N/A' }
+          ],
+          footer: {
+            text: "J S R Clan Application System"
+          },
+          timestamp: new Date().toISOString()
+        }]
+      };
+
+      try {
+        const response = await fetch(DISCORD_WEBHOOK_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (response.ok || response.status === 204) {
+          showToast("Application submitted successfully!");
+          form.reset();
+        } else {
+          showToast("Failed to send application. Please try again.");
         }
-
-        const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1547101016585936906/RDCBlAP3tmFQ1Y4SueW9W1TwDoWNfcFuFEtPfzfJRYID3FLqu3JrC807LOenJoMvrVg1";
-
-        const applicationForm = document.getElementById('jsr-application-form');
-        const submitBtn = document.getElementById('submit-btn');
-
-        if (applicationForm) {
-            applicationForm.addEventListener('submit', async function(e) {
-                e.preventDefault();
-
-                const ign = document.getElementById('ign').value.trim();
-                const discordUser = document.getElementById('discord').value.trim();
-                const highscore = document.getElementById('highscore').value.trim();
-                const playstyleSelect = document.getElementById('playstyle');
-                const playstyle = playstyleSelect.options[playstyleSelect.selectedIndex].text;
-                const reason = document.getElementById('reason').value.trim();
-
-                if (!ign || !discordUser || !reason) {
-                    showToast('Please fill in all required fields.');
-                    return;
-                }
-
-                submitBtn.disabled = true;
-                submitBtn.innerText = 'Submitting...';
-
-                const payload = {
-                    username: "JSR Applications",
-                    embeds: [
-                        {
-                            title: "New Clan Application",
-                            color: 16741632,
-                            fields: [
-                                { name: "In-Game Name", value: ign, inline: true },
-                                { name: "Discord Username", value: discordUser, inline: true },
-                                { name: "Personal Best Score", value: highscore || "Not provided", inline: true },
-                                { name: "Preferred Playstyle", value: playstyle, inline: true },
-                                { name: "Why they want to join", value: reason }
-                            ],
-                            timestamp: new Date().toISOString()
-                        }
-                    ]
-                };
-
-                try {
-                    const response = await fetch(DISCORD_WEBHOOK_URL, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-
-                    if (response.ok) {
-                        showToast('Application submitted! We\'ll be in touch on Discord.');
-                        applicationForm.reset();
-                    } else {
-                        showToast('Something went wrong. Please try again.');
-                    }
-                } catch (err) {
-                    showToast('Network error. Please try again.');
-                } finally {
-                    submitBtn.disabled = false;
-                    submitBtn.innerText = 'Submit Application';
-                }
-            });
-        }
-    </script>
+      } catch (error) {
+        showToast("An error occurred. Check your network connection.");
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerText = "SUBMIT APPLICATION";
+      }
+    });
+  </script>
 </body>
 </html>
