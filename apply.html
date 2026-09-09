@@ -113,22 +113,22 @@
     <form id="apply-form">
       <div class="form-group">
         <label for="ign">In-Game Name / Nickname *</label>
-        <input type="text" id="ign" required placeholder="e.g. Zoro">
+        <input type="text" id="ign" name="In-Game Name" required placeholder="e.g. Zoro">
       </div>
 
       <div class="form-group">
         <label for="discord">Discord Username *</label>
-        <input type="text" id="discord" required placeholder="e.g. Zoro">
+        <input type="text" id="discord" name="Discord Username" required placeholder="e.g. Zoro">
       </div>
 
       <div class="form-group">
         <label for="score">Personal Best Score</label>
-        <input type="text" id="score" placeholder="e.g. 217000">
+        <input type="text" id="score" name="Personal Best" placeholder="e.g. 217000">
       </div>
 
       <div class="form-group">
         <label for="playstyle">Preferred Playstyle</label>
-        <select id="playstyle">
+        <select id="playstyle" name="Playstyle">
           <option value="Aggressive / Trapper">Aggressive / Trapper</option>
           <option value="Defensive / Support">Defensive / Support</option>
           <option value="Balanced">Balanced</option>
@@ -137,7 +137,7 @@
 
       <div class="form-group">
         <label for="reason">Why do you want to join { J S R }? *</label>
-        <textarea id="reason" required placeholder="Tell us about yourself..."></textarea>
+        <textarea id="reason" name="Reason to Join" required placeholder="Tell us about yourself..."></textarea>
       </div>
 
       <button type="submit" class="btn-submit" id="submit-btn">Submit Application</button>
@@ -151,8 +151,8 @@
     const submitBtn = document.getElementById('submit-btn');
     const toast = document.getElementById('toast');
 
-    // Paste your Discord Webhook URL inside the quotes below
-    const DISCORD_WEBHOOK_URL = 'YOUR_DISCORD_WEBHOOK_URL_HERE';
+    // Your Formspree Endpoint
+    const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mbgjpwwd';
 
     function showToast(message) {
       toast.innerText = message;
@@ -165,42 +165,21 @@
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      if (DISCORD_WEBHOOK_URL === 'https://discord.com/api/webhooks/1547101016585936906/RDCBlAP3tmFQ1Y4SueW9W1TwDoWNfcFuFEtPfzfJRYID3FLqu3JrC807LOenJoMvrVg1' || !DISCORD_WEBHOOK_URL) {
-        showToast("Webhook missing! Please set DISCORD_WEBHOOK_URL in apply.html");
-        return;
-      }
-
       submitBtn.disabled = true;
       submitBtn.innerText = "SUBMITTING...";
 
-      const payload = {
-        embeds: [{
-          title: "📥 New Clan Application { J S R }",
-          color: 16738304, // Orange color accent
-          fields: [
-            { name: "In-Game Name", value: document.getElementById('ign').value || 'N/A', inline: true },
-            { name: "Discord Username", value: document.getElementById('discord').value || 'N/A', inline: true },
-            { name: "Personal Best", value: document.getElementById('score').value || 'N/A', inline: true },
-            { name: "Playstyle", value: document.getElementById('playstyle').value || 'N/A', inline: true },
-            { name: "Reason to Join", value: document.getElementById('reason').value || 'N/A' }
-          ],
-          footer: {
-            text: "J S R Clan Application System"
-          },
-          timestamp: new Date().toISOString()
-        }]
-      };
+      const formData = new FormData(form);
 
       try {
-        const response = await fetch(DISCORD_WEBHOOK_URL, {
+        const response = await fetch(FORMSPREE_ENDPOINT, {
           method: 'POST',
+          body: formData,
           headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(payload)
+            'Accept': 'application/json'
+          }
         });
 
-        if (response.ok || response.status === 204) {
+        if (response.ok) {
           showToast("Application submitted successfully!");
           form.reset();
         } else {
