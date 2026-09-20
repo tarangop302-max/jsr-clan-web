@@ -14,7 +14,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
@@ -23,21 +23,22 @@
                 extend: {
                     colors: {
                         brand: {
-                            bg: '#0b0a10',
-                            card: '#110f19',
-                            cardHover: '#171424',
-                            border: 'rgba(255, 255, 255, 0.08)',
-                            orange: '#ff6b00',
-                            orangeLight: '#ff9d00',
-                            orangeGlow: 'rgba(255, 107, 0, 0.35)',
-                            purple: '#1e1436',
-                            purpleGlow: 'rgba(168, 85, 247, 0.25)',
-                            gold: '#ffd700'
+                            bg: '#0a0712',
+                            card: '#140f22',
+                            cardHover: '#1a1329',
+                            border: 'rgba(255, 255, 255, 0.07)',
+                            orange: '#ff5a1f',
+                            orangeLight: '#ffb020',
+                            orangeGlow: 'rgba(255, 90, 31, 0.35)',
+                            purple: '#241a3d',
+                            purpleGlow: 'rgba(154, 110, 255, 0.22)',
+                            steel: '#aab2c5',
+                            steelDim: '#565b73',
+                            gold: '#ffc94a'
                         }
                     },
                     fontFamily: {
                         orbitron: ['Orbitron', 'sans-serif'],
-                        rajdhani: ['Rajdhani', 'sans-serif'],
                         grotesk: ['Space Grotesk', 'sans-serif']
                     }
                 }
@@ -47,9 +48,12 @@
 
     <style>
         body {
-            background-color: #0b0a10;
-            color: #e2e8f0;
-            font-family: 'Space Grotesk', 'Rajdhani', sans-serif;
+            background-color: #0a0712;
+            background-image:
+                radial-gradient(ellipse 80% 50% at 50% -10%, rgba(154, 110, 255, 0.12), transparent),
+                radial-gradient(ellipse 60% 40% at 90% 15%, rgba(255, 90, 31, 0.08), transparent);
+            color: #ece9f3;
+            font-family: 'Space Grotesk', sans-serif;
             overflow-x: hidden;
         }
 
@@ -58,14 +62,14 @@
             width: 7px;
         }
         ::-webkit-scrollbar-track {
-            background: #0b0a10;
+            background: #0a0712;
         }
         ::-webkit-scrollbar-thumb {
-            background: #1f1b2e;
+            background: #241c34;
             border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #ff6b00;
+            background: #ff5a1f;
         }
 
         /* Glassmorphic Cards & Panels */
@@ -77,64 +81,64 @@
         }
 
         .glass-card {
-            background: rgba(17, 15, 25, 0.65);
+            background: linear-gradient(180deg, rgba(20, 15, 34, 0.7), rgba(20, 15, 34, 0.45));
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid rgba(255, 255, 255, 0.07);
         }
 
-        .glass-card:hover {
-            border-color: rgba(255, 107, 0, 0.4);
-            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.8), 0 0 25px rgba(255, 107, 0, 0.15);
-            transform: translateY(-4px);
+        /* Reserved for cards that are genuinely clickable (kept rare, on purpose) */
+        .glass-card-interactive {
+            transition: border-color 0.3s ease, background 0.3s ease;
+        }
+        .glass-card-interactive:hover {
+            border-color: rgba(255, 90, 31, 0.45);
+            background: linear-gradient(180deg, rgba(26, 19, 41, 0.8), rgba(20, 15, 34, 0.55));
         }
 
         /* Neon & Text Effects */
         .neon-orange-text {
-            color: #ff6b00;
-            text-shadow: 0 0 15px rgba(255, 107, 0, 0.6);
+            color: #ff5a1f;
+            text-shadow: 0 0 18px rgba(255, 90, 31, 0.55);
         }
 
         .glow-border {
-            box-shadow: 0 0 20px rgba(255, 107, 0, 0.2);
+            box-shadow: 0 0 20px rgba(255, 90, 31, 0.18);
         }
 
         /* Buttons */
         .btn-glow-orange {
-            background: linear-gradient(135deg, #ff6b00 0%, #ff9d00 100%);
-            color: #0b0a10;
+            background: linear-gradient(135deg, #ff5a1f 0%, #ffb020 100%);
+            color: #0a0712;
             font-weight: 700;
-            letter-spacing: 0.05em;
-            box-shadow: 0 0 20px rgba(255, 107, 0, 0.35);
-            transition: all 0.3s ease;
+            letter-spacing: 0.03em;
+            box-shadow: 0 0 24px rgba(255, 90, 31, 0.4);
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
         }
 
         .btn-glow-orange:hover {
-            box-shadow: 0 0 35px rgba(255, 107, 0, 0.7);
-            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 0 38px rgba(255, 90, 31, 0.65);
+            transform: translateY(-2px);
         }
 
         .btn-glow-purple {
-            background: rgba(30, 20, 54, 0.7);
-            border: 1px solid rgba(168, 85, 247, 0.4);
-            color: #ffffff;
-            box-shadow: 0 0 15px rgba(168, 85, 247, 0.2);
-            transition: all 0.3s ease;
+            background: transparent;
+            border: 1px solid rgba(170, 178, 197, 0.3);
+            color: #d7dae3;
+            transition: border-color 0.3s ease, color 0.3s ease, background 0.3s ease;
         }
 
         .btn-glow-purple:hover {
-            border-color: #ff6b00;
-            background: rgba(40, 25, 75, 0.8);
-            box-shadow: 0 0 25px rgba(255, 107, 0, 0.4);
-            transform: translateY(-2px) scale(1.02);
+            border-color: rgba(255, 90, 31, 0.6);
+            color: #ffffff;
+            background: rgba(255, 90, 31, 0.06);
         }
 
         /* Smooth Floating Animation */
         @keyframes floatLogo {
-            0% { transform: translateY(0px); filter: drop-shadow(0 0 25px rgba(255, 107, 0, 0.4)); }
-            50% { transform: translateY(-14px); filter: drop-shadow(0 0 45px rgba(255, 107, 0, 0.65)); }
-            100% { transform: translateY(0px); filter: drop-shadow(0 0 25px rgba(255, 107, 0, 0.4)); }
+            0% { transform: translateY(0px); filter: drop-shadow(0 0 25px rgba(255, 90, 31, 0.4)); }
+            50% { transform: translateY(-14px); filter: drop-shadow(0 0 45px rgba(255, 90, 31, 0.65)); }
+            100% { transform: translateY(0px); filter: drop-shadow(0 0 25px rgba(255, 90, 31, 0.4)); }
         }
 
         .animate-float-logo {
@@ -156,15 +160,34 @@
         #cursor-dot {
             width: 8px;
             height: 8px;
-            background-color: #ff6b00;
-            box-shadow: 0 0 10px #ff6b00;
+            background-color: #ff5a1f;
+            box-shadow: 0 0 10px #ff5a1f;
         }
 
         #cursor-ring {
             width: 34px;
             height: 34px;
-            border: 1.5px solid rgba(255, 107, 0, 0.5);
+            border: 1.5px solid rgba(255, 90, 31, 0.5);
             transition: transform 0.15s ease-out, border-color 0.2s;
+        }
+
+        /* Section kicker + rule, colored per section rather than one repeated orange bar */
+        .section-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 0.8rem;
+            letter-spacing: 0.02em;
+        }
+        .section-kicker::before {
+            content: '';
+            width: 18px;
+            height: 2px;
+            background: currentColor;
+            display: inline-block;
+            border-radius: 2px;
         }
 
         @media (max-width: 768px) {
@@ -239,57 +262,60 @@
     <section id="hero" class="relative pt-32 pb-20 md:pt-40 md:pb-28 min-h-screen flex items-center justify-center overflow-hidden z-10">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 text-center flex flex-col items-center">
             
-            <!-- Clan Emblem -->
-            <div class="relative mb-10 group">
-                <div class="absolute -inset-8 bg-gradient-to-r from-brand-orange/40 via-purple-600/30 to-brand-orangeLight/40 rounded-full blur-3xl opacity-75 group-hover:opacity-100 transition duration-1000"></div>
-                
-                <div class="relative animate-float-logo w-52 h-52 sm:w-64 sm:h-64 md:w-72 md:h-72 glass-card rounded-3xl border border-brand-orange/40 flex items-center justify-center shadow-2xl backdrop-blur-xl overflow-hidden">
-                    <img src="logo.png" alt="JSR Emblem" class="w-full h-full object-cover">
+            <!-- Clan Emblem, framed as a hex/shield to match the mark itself -->
+            <div class="relative mb-10">
+                <div class="absolute -inset-10 bg-gradient-to-br from-brand-orange/30 via-purple-600/20 to-brand-orangeLight/25 blur-3xl opacity-80"></div>
+
+                <div class="relative animate-float-logo w-52 h-52 sm:w-64 sm:h-64 md:w-72 md:h-72 p-[3px]"
+                     style="clip-path: polygon(50% 0%, 100% 26%, 100% 74%, 50% 100%, 0% 74%, 0% 26%); background: linear-gradient(160deg, #ff5a1f, #9a6eff 55%, #ffb020);">
+                    <div class="w-full h-full overflow-hidden bg-brand-bg"
+                         style="clip-path: polygon(50% 0%, 100% 26%, 100% 74%, 50% 100%, 0% 74%, 0% 26%);">
+                        <img src="logo.png" alt="JSR Emblem" class="w-full h-full object-cover">
+                    </div>
                 </div>
             </div>
 
-            <!-- Tagline Badge -->
-            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-card border-brand-orange/30 text-brand-orange font-mono text-xs tracking-widest uppercase mb-6">
-                <span class="w-2 h-2 rounded-full bg-brand-orange animate-ping"></span>
-                Slither.io Clan
+            <!-- Tagline -->
+            <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-brand-steel/25 text-brand-steel text-xs tracking-wide mb-7">
+                <i class="fa-solid fa-worm text-brand-orange text-[11px]"></i>
+                Slither.io clan
             </div>
 
             <!-- Hero Main Heading -->
-            <h1 class="font-orbitron font-black text-5xl sm:text-7xl md:text-8xl tracking-tight text-white mb-6">
+            <h1 class="font-orbitron font-black text-6xl sm:text-7xl md:text-8xl tracking-tight text-white mb-6 leading-[0.95]">
                 { <span class="neon-orange-text">J S R</span> }
             </h1>
 
             <!-- Subtitle -->
-            <p class="text-gray-300 text-lg sm:text-xl max-w-3xl font-grotesk font-normal leading-relaxed mb-10">
+            <p class="text-gray-300 text-lg sm:text-xl max-w-2xl font-grotesk font-normal leading-relaxed mb-10">
                 Not a group you join by accident. JSR is a Slither.io clan built on loyalty, discipline, and standing your ground when it matters — together, every time.
             </p>
 
-            <!-- Action Buttons -->
-            <div class="flex flex-col sm:flex-row gap-5 w-full sm:w-auto font-orbitron">
-                <a href="#code" class="btn-glow-orange px-8 py-4 rounded-xl text-sm font-bold tracking-wider flex items-center justify-center gap-3">
-                    <i class="fa-solid fa-scroll"></i> READ THE CODE
-                </a>
-                <a href="apply.html" class="btn-glow-orange px-8 py-4 rounded-xl text-sm font-bold tracking-wider flex items-center justify-center gap-3">
+            <!-- Action Buttons: one clear primary, two quiet secondary -->
+            <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto font-orbitron">
+                <a href="apply.html" class="btn-glow-orange px-8 py-4 rounded-xl text-sm font-bold tracking-wider flex items-center justify-center gap-3 order-1 sm:order-2">
                     <i class="fa-solid fa-pen-nib"></i> APPLY TO JOIN
                 </a>
-                <a href="#join" class="btn-glow-purple px-8 py-4 rounded-xl text-sm font-bold tracking-wider flex items-center justify-center gap-3">
-                    <i class="fa-brands fa-discord text-lg text-brand-orange"></i> REQUEST TO JOIN
+                <a href="#code" class="btn-glow-purple px-8 py-4 rounded-xl text-sm font-bold tracking-wider flex items-center justify-center gap-3 order-2 sm:order-1">
+                    <i class="fa-solid fa-scroll"></i> READ THE CODE
+                </a>
+                <a href="#join" class="btn-glow-purple px-8 py-4 rounded-xl text-sm font-bold tracking-wider flex items-center justify-center gap-3 order-3">
+                    <i class="fa-brands fa-discord text-lg"></i> DISCORD
                 </a>
             </div>
 
         </div>
     </section>
 
-    <!-- Section 01: About / Who We Are -->
+    <!-- About / Who We Are -->
     <section id="about" class="py-24 relative z-10 border-t border-brand-border">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
             <div class="text-center mb-16">
-                <span class="text-brand-orange font-mono text-xs uppercase tracking-widest">01 — About</span>
-                <h2 class="font-orbitron font-bold text-3xl sm:text-4xl text-white tracking-wider mt-1 mb-3">
-                    WHO WE ARE
+                <span class="section-kicker text-brand-steel">The clan</span>
+                <h2 class="font-orbitron font-bold text-3xl sm:text-4xl text-white tracking-wide mt-2">
+                    Who we are
                 </h2>
-                <div class="w-20 h-0.5 bg-brand-orange mx-auto"></div>
             </div>
 
             <div class="grid md:grid-cols-12 gap-12 items-center">
@@ -345,68 +371,67 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
             <div class="text-center mb-16 max-w-3xl mx-auto">
-                <span class="text-brand-orange font-mono text-xs uppercase tracking-widest">02 — The Code</span>
-                <h2 class="font-orbitron font-bold text-3xl sm:text-4xl text-white tracking-wider mt-1 mb-3">
-                    RULES & REGULATIONS
+                <span class="section-kicker text-brand-orange">The code</span>
+                <h2 class="font-orbitron font-bold text-3xl sm:text-4xl text-white tracking-wide mt-2 mb-3">
+                    Rules & regulations
                 </h2>
-                <p class="text-gray-400 text-sm font-grotesk mt-2">
+                <p class="text-gray-400 text-sm font-grotesk">
                     Non-negotiable. Every member agrees to this on entry. Break it, and the clan votes on what happens next.
                 </p>
-                <div class="w-20 h-0.5 bg-brand-orange mx-auto mt-4"></div>
             </div>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 
                 <!-- Rule 1 -->
-                <div class="glass-card p-8 rounded-2xl relative overflow-hidden group">
-                    <span class="font-orbitron font-bold text-xs text-brand-orange tracking-widest uppercase mb-2 block">RULE 01</span>
-                    <h3 class="font-orbitron font-bold text-xl text-white mb-3">Respect the tag</h3>
-                    <p class="text-gray-300 text-sm leading-relaxed font-grotesk">
+                <div class="glass-card p-8 rounded-2xl relative overflow-hidden">
+                    <span class="absolute -top-3 right-4 font-orbitron font-black text-7xl text-white/[0.05] select-none leading-none">01</span>
+                    <h3 class="font-orbitron font-bold text-xl text-white mb-3 relative">Respect the tag</h3>
+                    <p class="text-gray-300 text-sm leading-relaxed font-grotesk relative">
                         Never bring shame to <span class="text-brand-orange">{ JSR }</span> in public matches. Represent our brotherhood with honor and composure at all times.
                     </p>
                 </div>
 
                 <!-- Rule 2 -->
-                <div class="glass-card p-8 rounded-2xl relative overflow-hidden group">
-                    <span class="font-orbitron font-bold text-xs text-brand-orange tracking-widest uppercase mb-2 block">RULE 02</span>
-                    <h3 class="font-orbitron font-bold text-xl text-white mb-3">No member left behind</h3>
-                    <p class="text-gray-300 text-sm leading-relaxed font-grotesk">
+                <div class="glass-card p-8 rounded-2xl relative overflow-hidden">
+                    <span class="absolute -top-3 right-4 font-orbitron font-black text-7xl text-white/[0.05] select-none leading-none">02</span>
+                    <h3 class="font-orbitron font-bold text-xl text-white mb-3 relative">No member left behind</h3>
+                    <p class="text-gray-300 text-sm leading-relaxed font-grotesk relative">
                         If a clanmate needs backup, you show up. We fight as a unit and protect each other in every arena.
                     </p>
                 </div>
 
                 <!-- Rule 3 -->
-                <div class="glass-card p-8 rounded-2xl relative overflow-hidden group">
-                    <span class="font-orbitron font-bold text-xs text-brand-orange tracking-widest uppercase mb-2 block">RULE 03</span>
-                    <h3 class="font-orbitron font-bold text-xl text-white mb-3">Zero tolerance for disrespect</h3>
-                    <p class="text-gray-300 text-sm leading-relaxed font-grotesk">
+                <div class="glass-card p-8 rounded-2xl relative overflow-hidden">
+                    <span class="absolute -top-3 right-4 font-orbitron font-black text-7xl text-white/[0.05] select-none leading-none">03</span>
+                    <h3 class="font-orbitron font-bold text-xl text-white mb-3 relative">Zero tolerance for disrespect</h3>
+                    <p class="text-gray-300 text-sm leading-relaxed font-grotesk relative">
                         No harassment, toxic trash talk, or discrimination towards teammates. Insubordination is dealt with immediately.
                     </p>
                 </div>
 
                 <!-- Rule 4 -->
-                <div class="glass-card p-8 rounded-2xl relative overflow-hidden group">
-                    <span class="font-orbitron font-bold text-xs text-brand-orange tracking-widest uppercase mb-2 block">RULE 04</span>
-                    <h3 class="font-orbitron font-bold text-xl text-white mb-3">Stay active or step aside</h3>
-                    <p class="text-gray-300 text-sm leading-relaxed font-grotesk">
+                <div class="glass-card p-8 rounded-2xl relative overflow-hidden">
+                    <span class="absolute -top-3 right-4 font-orbitron font-black text-7xl text-white/[0.05] select-none leading-none">04</span>
+                    <h3 class="font-orbitron font-bold text-xl text-white mb-3 relative">Stay active or step aside</h3>
+                    <p class="text-gray-300 text-sm leading-relaxed font-grotesk relative">
                         Inactivity without prior notice for 30 days results in rank suspension to keep our active core operational.
                     </p>
                 </div>
 
                 <!-- Rule 5 -->
-                <div class="glass-card p-8 rounded-2xl relative overflow-hidden group">
-                    <span class="font-orbitron font-bold text-xs text-brand-orange tracking-widest uppercase mb-2 block">RULE 05</span>
-                    <h3 class="font-orbitron font-bold text-xl text-white mb-3">Leadership calls are final</h3>
-                    <p class="text-gray-300 text-sm leading-relaxed font-grotesk">
+                <div class="glass-card p-8 rounded-2xl relative overflow-hidden">
+                    <span class="absolute -top-3 right-4 font-orbitron font-black text-7xl text-white/[0.05] select-none leading-none">05</span>
+                    <h3 class="font-orbitron font-bold text-xl text-white mb-3 relative">Leadership calls are final</h3>
+                    <p class="text-gray-300 text-sm leading-relaxed font-grotesk relative">
                         Disputes go to the officers and high command. Once a decision is made, execute without hesitation.
                     </p>
                 </div>
 
                 <!-- Rule 6 -->
-                <div class="glass-card p-8 rounded-2xl relative overflow-hidden group">
-                    <span class="font-orbitron font-bold text-xs text-brand-orange tracking-widest uppercase mb-2 block">RULE 06</span>
-                    <h3 class="font-orbitron font-bold text-xl text-white mb-3">No leaking clan business</h3>
-                    <p class="text-gray-300 text-sm leading-relaxed font-grotesk">
+                <div class="glass-card p-8 rounded-2xl relative overflow-hidden">
+                    <span class="absolute -top-3 right-4 font-orbitron font-black text-7xl text-white/[0.05] select-none leading-none">06</span>
+                    <h3 class="font-orbitron font-bold text-xl text-white mb-3 relative">No leaking clan business</h3>
+                    <p class="text-gray-300 text-sm leading-relaxed font-grotesk relative">
                         Internal strategy, member disputes, server links, and mod assets remain strictly inside JSR.
                     </p>
                 </div>
@@ -421,11 +446,10 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
             <div class="text-center mb-16">
-                <span class="text-brand-orange font-mono text-xs uppercase tracking-widest">03 — Structure</span>
-                <h2 class="font-orbitron font-bold text-3xl sm:text-4xl text-white tracking-wider mt-1 mb-3">
-                    CHAIN OF COMMAND
+                <span class="section-kicker text-brand-gold">Structure</span>
+                <h2 class="font-orbitron font-bold text-3xl sm:text-4xl text-white tracking-wide mt-2">
+                    Chain of command
                 </h2>
-                <div class="w-20 h-0.5 bg-brand-orange mx-auto"></div>
             </div>
 
             <div class="space-y-4 max-w-4xl mx-auto">
@@ -520,11 +544,10 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
             <div class="text-center mb-16">
-                <span class="text-brand-orange font-mono text-xs uppercase tracking-widest">04 — Our Mod</span>
-                <h2 class="font-orbitron font-bold text-3xl sm:text-4xl text-white tracking-wider mt-1 mb-3">
-                    JSR VLITHER MOD
+                <span class="section-kicker text-purple-300">Our tools</span>
+                <h2 class="font-orbitron font-bold text-3xl sm:text-4xl text-white tracking-wide mt-2">
+                    { JSR } Vlither mod
                 </h2>
-                <div class="w-20 h-0.5 bg-brand-orange mx-auto"></div>
             </div>
 
             <div class="max-w-4xl mx-auto glass-card rounded-3xl p-8 sm:p-12 border border-brand-orange/30 relative overflow-hidden">
@@ -544,9 +567,8 @@
                         </p>
 
                         <div class="pt-2">
-                            <!-- Updated Button: Directs to mod.html -->
-                            <a href="mod.html" class="btn-glow-orange inline-flex items-center gap-3 px-8 py-4 rounded-xl font-orbitron font-bold text-sm tracking-wider">
-                                <i class="fa-solid fa-download text-lg"></i> GET THE MOD
+                            <a href="https://github.com/tarangop302-max/jsr-clan-web/releases/download/v1/app-debug.apk" download class="btn-glow-orange inline-flex items-center gap-3 px-8 py-4 rounded-xl font-orbitron font-bold text-sm tracking-wider">
+                                <i class="fa-solid fa-download text-lg"></i> DOWNLOAD VLITHER APK (v1.1)
                             </a>
                         </div>
                     </div>
@@ -569,11 +591,10 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
             <div class="text-center mb-16">
-                <span class="text-brand-orange font-mono text-xs uppercase tracking-widest">05 — Get In</span>
-                <h2 class="font-orbitron font-bold text-3xl sm:text-4xl text-white tracking-wider mt-1 mb-3">
-                    REQUEST TO JOIN
+                <span class="section-kicker text-brand-orange">Reach us</span>
+                <h2 class="font-orbitron font-bold text-3xl sm:text-4xl text-white tracking-wide mt-2">
+                    Talk to a recruiter
                 </h2>
-                <div class="w-20 h-0.5 bg-brand-orange mx-auto"></div>
             </div>
 
             <div class="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
@@ -734,7 +755,7 @@
                 this.radius = Math.random() * 2 + 1;
                 this.vx = (Math.random() - 0.5) * 0.5;
                 this.vy = (Math.random() - 0.5) * 0.5;
-                this.color = Math.random() > 0.35 ? '#ff6b00' : '#8b5cf6';
+                this.color = Math.random() > 0.35 ? '#ff5a1f' : '#9a6eff';
                 this.alpha = Math.random() * 0.4 + 0.15;
             }
 
